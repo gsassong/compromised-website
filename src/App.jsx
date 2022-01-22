@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Navigation } from "./components/navigation";
+import ReactGA  from 'react-ga';
+// import { Navigation } from "./components/navigation";
 import { Header } from "./components/header";
 import { Platforms } from "./components/platforms";
 // import { About } from "./components/about";
@@ -18,6 +19,12 @@ export const scroll = new SmoothScroll('a[href*="#"]', {
 });
 
 const App = () => {
+  const TRACKING_ID = "UA-217892910-1";
+  if(document.location.hostname !== 'localhost') {
+    console.log("sending google analytics", document.location.hostname);
+    ReactGA.initialize(TRACKING_ID);
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }
   const [landingPageData, setLandingPageData] = useState({});
   useEffect(() => {
     setLandingPageData(JsonData);
@@ -25,7 +32,7 @@ const App = () => {
 
   return (
     <div>
-      <Navigation data={landingPageData.Navigation} />
+      {/* <Navigation data={landingPageData.Navigation} /> */}
       <Header data={landingPageData.Header} />
       <Platforms data={landingPageData.Platforms} />
       {/* <About data={landingPageData.About} /> */}
